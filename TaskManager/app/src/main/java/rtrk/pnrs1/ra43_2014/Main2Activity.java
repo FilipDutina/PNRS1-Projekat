@@ -1,7 +1,7 @@
 package rtrk.pnrs1.ra43_2014;
 
 /*
-* 2. V 2017.
+* 3. V 2017.
 * */
 
 import android.app.DatePickerDialog;

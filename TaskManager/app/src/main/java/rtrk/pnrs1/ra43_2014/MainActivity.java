@@ -1,5 +1,9 @@
 package rtrk.pnrs1.ra43_2014;
-/*VERZIJA ZA 13. APRIL*/
+
+/*
+* Filip Dutina ra43-2014
+* 3. V 2017.
+* */
 
 import android.app.ListActivity;
 import android.content.Intent;
