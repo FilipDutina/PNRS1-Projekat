@@ -251,7 +251,7 @@ public class Main2Activity extends AppCompatActivity {
                 if(boks.isChecked())
                 {
                     alarmTask = 1;
-                    intent.putExtra("checked", true);
+                    intent.putExtra("checked", true);   //podsetnik je cekiran
                 }
                 intent.putExtra("ime", zadatakImeString);
                 intent.putExtra("vreme", vremeString);
@@ -259,7 +259,6 @@ public class Main2Activity extends AppCompatActivity {
                 intent.putExtra("prioritet", priority);
                 intent.putExtra("alarmImage", alarmTask);
 
-                /*ovde ide dugme sa leve strane i checkBox*/
 
                 intent.putExtra(MainActivity.myButtonCode, MainActivity.myLeftCode);
                 if(getIntent().getIntExtra(MainActivity.myRequestCode, 0) == MainActivity.EDIT_TASK)

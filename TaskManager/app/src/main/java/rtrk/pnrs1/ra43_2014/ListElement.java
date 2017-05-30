@@ -13,7 +13,7 @@ public class ListElement implements Serializable{
     protected String datum;
     protected int prioritet;
     protected int podsetnik;
-    protected boolean myTaskReminder;
+    protected boolean myTaskReminder;   //dodato za proveru reminder-a
 
     public ListElement(String imeZadatka1, int prioritet1, String vreme1, String datum1 , int podsetnik1, boolean isSet)
     {

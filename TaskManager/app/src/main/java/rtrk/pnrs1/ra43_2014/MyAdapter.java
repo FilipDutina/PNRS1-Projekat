@@ -43,7 +43,7 @@ public class MyAdapter extends BaseAdapter{
         notifyDataSetChanged();
     }
 
-    public void editTask(int position, ListElement myListElement)
+    public void editTask(int position, ListElement myListElement)   //izmeni zadatak
     {
         myTaskList.remove(position);
         myTaskList.add(position, myListElement);

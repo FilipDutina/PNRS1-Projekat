@@ -26,7 +26,7 @@ public class CustomNotifications extends NotificationAidl.Stub{
     public void notificationAdd() throws RemoteException
     {
         myNotificationManager = (NotificationManager) myContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        myNotificationBuilder = new Notification.Builder(myContext).setContentTitle("Zadatak").setSmallIcon(android.R.drawable.ic_popup_reminder).setLargeIcon(BitmapFactory.decodeResource(myContext.getResources(), R.drawable.reminder)).setContentText("Zadatak dodat!");
+        myNotificationBuilder = new Notification.Builder(myContext).setContentTitle("ZADATAK").setSmallIcon(android.R.drawable.ic_popup_reminder).setLargeIcon(BitmapFactory.decodeResource(myContext.getResources(), R.drawable.reminder)).setContentText("Zadatak dodat!");
         myNotificationManager.notify(1, myNotificationBuilder.build()); //id i notifikacija
     }
 
@@ -34,7 +34,7 @@ public class CustomNotifications extends NotificationAidl.Stub{
     public void notificationEdit() throws RemoteException
     {
         myNotificationManager = (NotificationManager) myContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        myNotificationBuilder = new Notification.Builder(myContext).setContentTitle("Zadatak").setSmallIcon(android.R.drawable.ic_popup_reminder).setLargeIcon(BitmapFactory.decodeResource(myContext.getResources(), R.drawable.reminder)).setContentText("Zadatak izmenjen!");
+        myNotificationBuilder = new Notification.Builder(myContext).setContentTitle("ZADATAK").setSmallIcon(android.R.drawable.ic_popup_reminder).setLargeIcon(BitmapFactory.decodeResource(myContext.getResources(), R.drawable.reminder)).setContentText("Zadatak izmenjen!");
         myNotificationManager.notify(1, myNotificationBuilder.build()); //id i notifikacija
     }
 
@@ -42,7 +42,7 @@ public class CustomNotifications extends NotificationAidl.Stub{
     public void notificationDelete() throws RemoteException
     {
         myNotificationManager = (NotificationManager) myContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        myNotificationBuilder = new Notification.Builder(myContext).setContentTitle("Zadatak").setSmallIcon(android.R.drawable.ic_popup_reminder).setLargeIcon(BitmapFactory.decodeResource(myContext.getResources(), R.drawable.reminder)).setContentText("Zadatak obrisan!");
+        myNotificationBuilder = new Notification.Builder(myContext).setContentTitle("ZADATAK").setSmallIcon(android.R.drawable.ic_popup_reminder).setLargeIcon(BitmapFactory.decodeResource(myContext.getResources(), R.drawable.reminder)).setContentText("Zadatak obrisan!");
         myNotificationManager.notify(1, myNotificationBuilder.build()); //id i notifikacija
     }
 }
