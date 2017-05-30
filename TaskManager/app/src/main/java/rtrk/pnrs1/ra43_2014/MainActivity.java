@@ -5,8 +5,17 @@ package rtrk.pnrs1.ra43_2014;
 * 3. V 2017.
 * */
 
+/*Dodajem za IV zadatak*/
+import android.content.ComponentName;
+import android.os.IBinder;
+import android.os.RemoteException;
+import android.support.v7.app.NotificationCompat;
+import android.util.Log;
+import java.text.ParseException;
+//***************************
 import android.app.ListActivity;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -16,12 +25,24 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements ServiceConnection{
+
+    //strings
+    public static String myButtonCode = "buttonCode";
+    public static String myLeftCode = "leftButton";
+    public static String myRightCode = "rightButton";
+    public static String myTaskPosition = "taskPosition";
+    public static String myRequestCode = "requestCode";
 
     //values used for operations with list
     private int LIST_LONG_PRESS = 1;
     private int ADD_TASK_CLICK = 0;
     private int myPosition;
+    public static int EDIT_TASK = 1;
+    public static int ADD_TASK = 0;
 
     //buttons
     private Button noviZadatak;
@@ -32,6 +53,12 @@ public class MainActivity extends AppCompatActivity {
 
     //list
     private ListView lista;
+    public static ArrayList<ListElement> myArrayList;
+
+    //service stuff
+    private ServiceConnection myServiceConnection;
+    private NotificationAidl myNotificationAidlInterface;
+    private Intent myServiceIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +71,12 @@ public class MainActivity extends AppCompatActivity {
         myAdapter = new MyAdapter(MainActivity.this);
 
 
+        myServiceConnection = this;
+        myServiceIntent = new Intent(this, ServiceNotifier.class);
+        bindService(myServiceIntent, myServiceConnection, BIND_AUTO_CREATE);
+        myArrayList = myAdapter.getTaskList();
+
+
         noviZadatak.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, Main2Activity.class);
                 intent.putExtra("levo", getText(R.string.dodaj));
                 intent.putExtra("desno", getText(R.string.otkazi));
-                startActivityForResult(intent, ADD_TASK_CLICK);
+                startActivityForResult(intent, ADD_TASK);
             }
         });
 
@@ -71,8 +104,8 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("levo", getText(R.string.sacuvaj));
                 intent.putExtra("desno", getText(R.string.obrisi));
                 myPosition = position;
-                intent.putExtra("listElement", position);
-                startActivityForResult(intent, LIST_LONG_PRESS);
+                intent.putExtra(myTaskPosition, position);
+                startActivityForResult(intent, EDIT_TASK);
 
                 return true;
             }
@@ -84,15 +117,71 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == ADD_TASK_CLICK && resultCode == RESULT_OK)
+        if(requestCode == ADD_TASK && resultCode == RESULT_OK)
         {
-            myAdapter.addTask(new ListElement(data.getStringExtra("ime"), data.getIntExtra("prioritet", 0), data.getStringExtra("vreme"), data.getStringExtra("datum"), data.getIntExtra("alarmImage", 0)));
-            myAdapter.notifyDataSetChanged();
+            if(data.getStringExtra(myButtonCode).equals(myLeftCode))
+            {
+                myAdapter.addTask(new ListElement(data.getStringExtra("ime"), data.getIntExtra("prioritet", 0), data.getStringExtra("vreme"), data.getStringExtra("datum"), data.getIntExtra("alarmImage", 0), data.getExtras().getBoolean("checked")));
+
+                if(data.getExtras().getBoolean("checked"))
+                {
+                    Log.i("taskReminderSet", "true");
+                }
+                myAdapter.notifyDataSetChanged();
+                try
+                {
+                    myNotificationAidlInterface.notificationAdd();
+                }
+                catch (RemoteException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+            //myAdapter.addTask(new ListElement(data.getStringExtra("ime"), data.getIntExtra("prioritet", 0), data.getStringExtra("vreme"), data.getStringExtra("datum"), data.getIntExtra("alarmImage", 0)));
+            //myAdapter.notifyDataSetChanged();
         }
-        if(requestCode == LIST_LONG_PRESS && RESULT_CANCELED == resultCode)
+        if(requestCode == EDIT_TASK && RESULT_OK == resultCode)
         {
-            myAdapter.removeTask(myPosition);
+            if(data.getStringExtra(myButtonCode).equals(myLeftCode))
+            {
+                ListElement myListElement = new ListElement(data.getStringExtra("ime"), data.getIntExtra("prioritet", 0), data.getStringExtra("vreme"), data.getStringExtra("datum"), data.getIntExtra("alarmImage", 0), data.getExtras().getBoolean("checked"));
+                myAdapter.editTask(data.getIntExtra(myTaskPosition, 0), myListElement);
+                try
+                {
+                    myNotificationAidlInterface.notificationEdit();
+                }
+                catch (RemoteException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+            else if(data.getStringExtra(myButtonCode).equals(myRightCode))
+            {
+                myAdapter.removeTask(data.getIntExtra(myTaskPosition, 0));
+                try
+                {
+                    myNotificationAidlInterface.notificationDelete();
+                }
+                catch (RemoteException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+            //myAdapter.removeTask(myPosition);
         }
+    }
+
+    @Override
+    public void onServiceConnected(ComponentName name, IBinder service)
+    {
+        myNotificationAidlInterface = NotificationAidl.Stub.asInterface(service);
+    }
+
+    @Override
+    public void onServiceDisconnected(ComponentName name)
+    {
+
+
     }
 }
 

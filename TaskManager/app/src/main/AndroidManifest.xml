@@ -16,7 +16,16 @@
             </intent-filter>
         </activity>
         <activity android:name=".Main2Activity" />
-        <activity android:name=".Main3Activity"></activity>
+        <activity android:name=".Main3Activity" />
+
+        <service
+            android:name=".Service"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".ServiceNotifier"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

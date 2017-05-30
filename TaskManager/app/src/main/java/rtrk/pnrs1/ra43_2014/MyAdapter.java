@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by student on 11.4.2017.
@@ -40,6 +41,18 @@ public class MyAdapter extends BaseAdapter{
     {
         myTaskList.remove(position);
         notifyDataSetChanged();
+    }
+
+    public void editTask(int position, ListElement myListElement)
+    {
+        myTaskList.remove(position);
+        myTaskList.add(position, myListElement);
+        notifyDataSetChanged();
+    }
+
+    public ArrayList<ListElement> getTaskList()
+    {
+        return myTaskList;
     }
 
     @Override

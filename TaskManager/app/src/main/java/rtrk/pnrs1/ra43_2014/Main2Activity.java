@@ -251,6 +251,7 @@ public class Main2Activity extends AppCompatActivity {
                 if(boks.isChecked())
                 {
                     alarmTask = 1;
+                    intent.putExtra("checked", true);
                 }
                 intent.putExtra("ime", zadatakImeString);
                 intent.putExtra("vreme", vremeString);
@@ -260,17 +261,29 @@ public class Main2Activity extends AppCompatActivity {
 
                 /*ovde ide dugme sa leve strane i checkBox*/
 
+                intent.putExtra(MainActivity.myButtonCode, MainActivity.myLeftCode);
+                if(getIntent().getIntExtra(MainActivity.myRequestCode, 0) == MainActivity.EDIT_TASK)
+                {
+                    intent.putExtra(MainActivity.myTaskPosition, getIntent().getIntExtra(MainActivity.myTaskPosition, 0));
+                }
+
                 setResult(RESULT_OK, intent);
                 finish();
             }
         });
 
         desno.setOnClickListener(new View.OnClickListener() {
+            Intent intent = new Intent();
             @Override
             public void onClick(View v) {
                 //code here
                 //Intent intent = new Intent(Main2Activity.this, MainActivity.class);
                 //startActivity(intent);
+                intent.putExtra(MainActivity.myButtonCode, MainActivity.myRightCode);
+                intent.putExtra(MainActivity.myButtonCode, MainActivity.myRightCode);
+
+                setResult(RESULT_OK, intent);
+
                 finish();
             }
         });
