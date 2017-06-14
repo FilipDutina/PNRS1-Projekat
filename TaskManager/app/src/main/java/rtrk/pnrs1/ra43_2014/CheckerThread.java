@@ -52,14 +52,14 @@ public class CheckerThread extends Thread {
         super.run();
         while(myRun)
         {
-            Log.i("Nit", "aktivna");
-            String myMessage = "Zadatak treba biti izvršen za 15 minuta";
+            //Log.i("Nit", "aktivna");
+            String myMessage = "Zadatak treba biti izvršen za 15 minuta-";
             for(ListElement myListElement : MainActivity.myArrayList)
             {
-                Log.i("For", "petlja");
+                //Log.i("For", "petlja");
                 if(myListElement.getDatum().equals("Danas") && myListElement.getMyTaskReminder())
                 {
-                    Log.i("IF", "prvi");
+                    //Log.i("IF", "prvi");
                     Calendar myCurrentDate = Calendar.getInstance();
                     Calendar myTaskTime = Calendar.getInstance();
                     try
@@ -74,13 +74,13 @@ public class CheckerThread extends Thread {
 
                     if(myTaskTime.get(Calendar.HOUR_OF_DAY) == myCurrentDate.get(Calendar.HOUR_OF_DAY)) //ako je odabrani sat jednak sistemskom
                     {
-                        Log.i("IF", "drugi");
+                        //Log.i("IF", "drugi");
                         if((myTaskTime.get(Calendar.MINUTE) - myCurrentDate.get(Calendar.MINUTE)) <= 15 && (myTaskTime.get(Calendar.MINUTE) - myCurrentDate.get(Calendar.MINUTE)) >= 0)
                         {
-                            Log.i("IF", "treci");
+                            //Log.i("IF", "treci");
                             if(myNotificationReady)
                             {
-                                Log.i("IF", "cetvrti1");
+                                //Log.i("IF", "cetvrti1");
                                 myMessage += ", " + myListElement.getImeZadatka();
                             }
                             else
@@ -96,7 +96,7 @@ public class CheckerThread extends Thread {
                         {
                             if(myNotificationReady)
                             {
-                                Log.i("IF", "cetvrti2");
+                                //Log.i("IF", "cetvrti2");
                                 myMessage += ", " + myListElement.getImeZadatka();
                             }
                             else
