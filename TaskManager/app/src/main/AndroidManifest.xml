@@ -19,13 +19,10 @@
         <activity android:name=".Main3Activity" />
 
         <service
-            android:name=".Service"
-            android:enabled="true"
-            android:exported="true" />
-        <service
             android:name=".ServiceNotifier"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true">
+        </service>
     </application>
 
 </manifest>

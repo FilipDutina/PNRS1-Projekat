@@ -9,6 +9,10 @@ interface NotificationAidl {
      * and return values in AIDL.
      */
 
+     /*
+        It allows you to define the programming interface that both the client and service agree upon in order to communicate with each other using interprocess communication (IPC).
+     */
+
     void notificationAdd();
 
     void notificationEdit();

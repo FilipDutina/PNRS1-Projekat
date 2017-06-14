@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
 
     //service stuff
     private ServiceConnection myServiceConnection;
-    private NotificationAidl myNotificationAidlInterface;
+    private NotificationAidl myNotificationAidlInterface;   //instanca mog Aidl interfejsa
     private Intent myServiceIntent;
 
     @Override
@@ -115,6 +115,16 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if(myNotificationAidlInterface != null) {
+            unbindService(this);
+        }
+
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == ADD_TASK && resultCode == RESULT_OK)
@@ -123,10 +133,10 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
             {
                 myAdapter.addTask(new ListElement(data.getStringExtra("ime"), data.getIntExtra("prioritet", 0), data.getStringExtra("vreme"), data.getStringExtra("datum"), data.getIntExtra("alarmImage", 0), data.getExtras().getBoolean("checked")));
 
-                if(data.getExtras().getBoolean("checked"))
+                /*if(data.getExtras().getBoolean("checked"))
                 {
                     Log.i("taskReminderSet", "true");
-                }
+                }*/
                 myAdapter.notifyDataSetChanged();
                 try
                 {

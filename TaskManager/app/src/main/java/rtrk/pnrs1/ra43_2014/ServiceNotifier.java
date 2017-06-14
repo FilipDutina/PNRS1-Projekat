@@ -7,7 +7,7 @@ import android.os.IBinder;
 public class ServiceNotifier extends Service {
 
     private CustomNotifications myCustomNotification;
-    private CheckerThread myCheckerThread;
+    private CheckerThread myCheckerThread;  //instanca moje niti
 
     @Override
     public void onCreate()

@@ -59,23 +59,28 @@ public class CheckerThread extends Thread {
                 Log.i("For", "petlja");
                 if(myListElement.getDatum().equals("Danas") && myListElement.getMyTaskReminder())
                 {
+                    Log.i("IF", "prvi");
                     Calendar myCurrentDate = Calendar.getInstance();
                     Calendar myTaskTime = Calendar.getInstance();
                     try
                     {
-                        myTaskTime.setTime(mySimpleDateFormat.parse(myListElement.getVreme()));
+                        myTaskTime.setTime(mySimpleDateFormat.parse(myListElement.getVreme())); //vreme mog taska
+
                     }
                     catch (ParseException e)
                     {
                         e.printStackTrace();
                     }
 
-                    if(myTaskTime.get(Calendar.HOUR_OF_DAY) == myCurrentDate.get(Calendar.HOUR_OF_DAY))
+                    if(myTaskTime.get(Calendar.HOUR_OF_DAY) == myCurrentDate.get(Calendar.HOUR_OF_DAY)) //ako je odabrani sat jednak sistemskom
                     {
+                        Log.i("IF", "drugi");
                         if((myTaskTime.get(Calendar.MINUTE) - myCurrentDate.get(Calendar.MINUTE)) <= 15 && (myTaskTime.get(Calendar.MINUTE) - myCurrentDate.get(Calendar.MINUTE)) >= 0)
                         {
+                            Log.i("IF", "treci");
                             if(myNotificationReady)
                             {
+                                Log.i("IF", "cetvrti1");
                                 myMessage += ", " + myListElement.getImeZadatka();
                             }
                             else
@@ -85,12 +90,13 @@ public class CheckerThread extends Thread {
                             myNotificationReady = true;
                         }
                     }
-                    else if((myTaskTime.get(Calendar.HOUR_OF_DAY) - myCurrentDate.get(Calendar.HOUR_OF_DAY)) == 1)
+                    else if((myTaskTime.get(Calendar.HOUR_OF_DAY) - myCurrentDate.get(Calendar.HOUR_OF_DAY)) == 1)  //ako vrednost sata nije ista
                     {
                         if((myTaskTime.get(Calendar.MINUTE) + 60 - myCurrentDate.get(Calendar.MINUTE)) <= 15 && (myTaskTime.get(Calendar.MINUTE) + 60 - myCurrentDate.get(Calendar.MINUTE) + 60) >= 0)
                         {
                             if(myNotificationReady)
                             {
+                                Log.i("IF", "cetvrti2");
                                 myMessage += ", " + myListElement.getImeZadatka();
                             }
                             else
@@ -104,7 +110,7 @@ public class CheckerThread extends Thread {
             }
             if(myNotificationReady)
             {
-                Log.i("Notifikacija", "spremna");
+                //Log.i("Notifikacija", "spremna");
                 myNotificationBuilder.setContentText(myMessage);
 
                 myNotificationManager.notify(0, myNotificationBuilder.build());
